@@ -6,21 +6,53 @@
 using std::length_error;
 
 class Stack {
+ private:
+  struct Element {
+    int value, max;
+  };
+  int capacity;
+  int size;
+  int max;
+  Element* arr;
+  
  public:
+  Stack() {
+    capacity = 1;
+    size = 0;
+    max = INT_MIN;
+    arr = new Element[capacity];
+  }
+  ~Stack() {
+    delete [] arr;
+  }
   bool Empty() const {
-    // TODO - you fill in here.
-    return true;
+    return size == 0;
   }
   int Max() const {
-    // TODO - you fill in here.
-    return 0;
+    if (Empty()) {
+      throw length_error("Max(): empty stack");
+    }
+    return arr[size-1].max;
   }
   int Pop() {
-    // TODO - you fill in here.
-    return 0;
+    if (Empty()) {
+      throw length_error("Pop(): empty stack");
+    }
+    return arr[--size].value;
   }
   void Push(int x) {
-    // TODO - you fill in here.
+    if (size == capacity) {
+      capacity *= 2;
+      Element* new_arr = new Element[capacity];
+      for (int i = 0; i < size; i++) {
+        new_arr[i] = arr[i];
+      }
+      delete [] arr;
+      arr = new_arr;
+    }
+
+    Element e{x, std::max(x, Empty() ? x : Max())};
+    arr[size++] = e;
     return;
   }
 };
