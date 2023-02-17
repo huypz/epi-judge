@@ -11,12 +11,12 @@ Node CheckIsBalanced(const unique_ptr<BinaryTreeNode<int>>& tree) {
     return {true, -1};
   }
 
-  auto left_result = CheckIsBalanced(tree->left);
+  Node left_result = CheckIsBalanced(tree->left);
   if (!left_result.isBalanced) {
     return {false, 0};
   }
 
-  auto right_result = CheckIsBalanced(tree->right);
+  Node right_result = CheckIsBalanced(tree->right);
   if (!right_result.isBalanced) {
     return {false, 0};
   }
