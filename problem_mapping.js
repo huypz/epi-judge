@@ -1470,7 +1470,7 @@ problem_mapping = {
         },
         "12.02 Is an anonymous letter constructible?": {
             "C++: is_anonymous_letter_constructible.cc": {
-                "passed": 0,
+                "passed": 212,
                 "total": 212
             },
             "Java: IsAnonymousLetterConstructible.java": {
