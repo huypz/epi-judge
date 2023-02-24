@@ -4,8 +4,27 @@
 #include "test_framework/generic_test.h"
 using std::unique_ptr;
 
+struct Entry {
+  const unique_ptr<BinaryTreeNode<int>>& node;
+  int low;
+  int high;
+};
+
 bool IsBinaryTreeBST(const unique_ptr<BinaryTreeNode<int>>& tree) {
-  // TODO - you fill in here.
+  std::queue<Entry> bfs_queue;
+  bfs_queue.emplace(Entry{tree, std::numeric_limits<int>::min(), std::numeric_limits<int>::max()});
+
+  while (!bfs_queue.empty()) {
+    if (bfs_queue.front().node.get()) {
+      if (bfs_queue.front().node->data < bfs_queue.front().low || bfs_queue.front().node->data > bfs_queue.front().high) {
+        return false;
+      }
+      bfs_queue.emplace(Entry{bfs_queue.front().node->left, bfs_queue.front().low, bfs_queue.front().node->data});
+      bfs_queue.emplace(Entry{bfs_queue.front().node->right, bfs_queue.front().node->data, bfs_queue.front().high});
+    }
+    bfs_queue.pop();
+  }
+
   return true;
 }
 
