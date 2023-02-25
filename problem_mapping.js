@@ -1952,7 +1952,7 @@ problem_mapping = {
     "Chapter 15: Recursion": {
         "15.00 Bootcamp: Recursion": {
             "C++: euclidean_gcd.cc": {
-                "passed": 0,
+                "passed": 10034,
                 "total": 10034
             },
             "Java: EuclideanGcd.java": {
@@ -1966,7 +1966,7 @@ problem_mapping = {
         },
         "15.01 The Towers of Hanoi problem": {
             "C++: hanoi.cc": {
-                "passed": 0,
+                "passed": 10,
                 "total": 10
             },
             "Java: Hanoi.java": {
