@@ -6,6 +6,7 @@
 #include "test_framework/serialization_traits.h"
 #include "test_framework/test_failure.h"
 #include "test_framework/timed_executor.h"
+
 using std::vector;
 enum class Color { kWhite, kBlack };
 struct Coordinate {
@@ -15,10 +16,42 @@ struct Coordinate {
 
   int x, y;
 };
+
+bool IsFeasible(const Coordinate& cur, vector<vector<Color>>& maze) {
+  return cur.x >= 0 && cur.x < maze.size() && cur.y >= 0 && cur.y < maze[cur.x].size() && maze[cur.x][cur.y] == Color::kWhite;
+}
+
+bool SearchMazeHelper(vector<vector<Color>>* maze, const Coordinate& cur,
+                              const Coordinate& e, vector<Coordinate>* path) {
+  if (cur == e) {
+    return true;
+  }
+  
+  const vector<vector<int>> kShift = {{0, 1}, {0, -1}, {1, 0}, {-1, 0}};
+  for (const vector<int>& s : kShift) {
+    Coordinate next{cur.x + s[0], cur.y + s[1]};
+    if (IsFeasible(next, *maze)) {
+      (*maze)[next.x][next.y] = Color::kBlack;
+      path->push_back(next);
+      if (SearchMazeHelper(maze, next, e, path)) {
+        return true;
+      }
+      path->pop_back();
+    }
+  }
+  
+  return false;
+}
+
 vector<Coordinate> SearchMaze(vector<vector<Color>> maze, const Coordinate& s,
                               const Coordinate& e) {
-  // TODO - you fill in here.
-  return {};
+  vector<Coordinate> path;
+  maze[s.x][s.y] = Color::kBlack;
+  path.push_back(s);
+  if (!SearchMazeHelper(&maze, s, e, &path)) {
+    path.pop_back();
+  }
+  return path;
 }
 
 namespace test_framework {
